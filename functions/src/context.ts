@@ -1,20 +1,21 @@
-import { NextFunction, Response } from "express";
-import { ContextRequest } from "./utils/types";
+import { NextFunction, Request, Response } from "express";
+import logger from "./utils/logger.js";
+import models from "./models";
 
 // const jwt = require('jsonwebtoken');
-// const { secrets } = require('./utils/config');
-// const logger = require('./utils/logger');
-// const models = require('./models');
+// import jwt from "jsonwebtoken";
+// import { secrets } from "./utils/config";
 
 
-const provideContext = async (req: ContextRequest, res: Response, next: NextFunction) => {
+const provideContext = async (req: Request, res: Response, next: NextFunction) => {
   const context = {
-    // models,
-    // logger,
+    models,
+    logger,
     userEmail: null,
     isAuthenticated: false,
     isPrivileged: false,
   };
+
   console.log("Het wtf?");
 
   // const authorizationHeader = null || req.headers.authorization;

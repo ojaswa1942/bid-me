@@ -1,5 +1,4 @@
-import { Response } from "express";
-import { Request } from "firebase-functions/v1/https";
+import { CustomRequest, CustomResponse } from "../types/types";
 
 const express = require('express');
 // const {
@@ -18,7 +17,7 @@ const router = express.Router();
 
 // router.use(withAuth);
 
-router.get('/login', (req: Request, res: Response) => res.status(200).json("hey you?"));
+router.get('/login', (req: CustomRequest, res: CustomResponse) => res.status(200).json("hey you?"));
 
 // router.post('/account/create', createAccount);
 // router.post('/account/get', getAccount);
