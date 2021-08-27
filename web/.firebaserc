@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "bid-me-fn": {
+      "hosting": {
+        "bid-me-web": [
+          "bid-me-fn"
+        ]
+      }
+    }
+  }
+}

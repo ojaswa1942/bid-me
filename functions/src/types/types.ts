@@ -10,6 +10,7 @@ export interface Context {
     logger: (...args: any[]) => void;
     isAuthenticated: boolean;
     isPrivileged: boolean;
+    uid: null | string;
     userEmail: null | string;
 };
 
@@ -26,3 +27,29 @@ export type UserModel = {
     email: string;
     password: string;
 };
+
+export type LoginArgs = {
+    email: string;
+    password: string;
+};
+
+export type SignupArgs = {
+    name: string;
+    email: string;
+    password: string;
+};
+
+type SuccessResponse = {
+    success: true;
+    body: SuccessBody
+}
+interface SuccessBody {
+    message: string;
+    [key: string]: any;
+}
+type FailureResponse = {
+    success: false;
+    error: string | Error;
+}
+
+export type ServiceResponse = SuccessResponse | FailureResponse;

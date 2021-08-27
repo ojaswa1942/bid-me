@@ -1,6 +1,6 @@
 import serviceAccounts from "../../serviceaccount.json";
 
-// require('dotenv').config();
+require('dotenv').config();
 
 const {
     DATABASE_URL,

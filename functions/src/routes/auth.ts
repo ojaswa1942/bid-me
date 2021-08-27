@@ -1,6 +1,7 @@
-import { CustomRequest, CustomResponse } from "../types/types";
+import { Request, Response } from "express";
+import { handleLogin, handleRegister } from "../controllers/auth";
 
-const express = require('express');
+import express from 'express';
 // const {
 //   auth,
 //   signup,
@@ -17,13 +18,9 @@ const router = express.Router();
 
 // router.use(withAuth);
 
-router.get('/login', (req: CustomRequest, res: CustomResponse) => res.status(200).json("hey you?"));
+router.get('/', (req: Request, res: Response) => res.status(200).json({ message: "Seems to be working." }));
 
-// router.post('/account/create', createAccount);
-// router.post('/account/get', getAccount);
-// router.post('/account/search', findAccount);
-// router.post('/account/transfer', transferFunds);
-
-// router.post('/signup', withPrivilege, signup);
+router.post('/register', handleRegister);
+router.post('/login', handleLogin);
 
 export default router;

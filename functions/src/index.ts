@@ -3,7 +3,7 @@ import * as admin from "firebase-admin";
 import express, { Request, Response } from "express";
 import cors from "cors";
 
-import { auth } from "./routes";
+import routes from "./routes";
 import provideContext from "./context";
 import { realtimeDatabase } from "./utils/config";
 import logger from "./utils/logger";
@@ -25,7 +25,8 @@ try {
   app.use(provideContext);
 
   app.get('/', (req: Request, res: Response) => res.sendStatus(200));
-  app.use('/auth', auth);
+  app.use('/', routes);
+
 } catch (error) {
   logger({ type: `ERROR` }, `Unhandled Exception@server.js`);
   logger({ type: `ERROR` }, error);

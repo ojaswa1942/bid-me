@@ -1,60 +1,43 @@
-import { Context } from "../types/types";
+import * as admin from "firebase-admin";
+import * as bcrypt from "bcrypt";
 
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
-// const { secrets } = require('../utils/config');
-
-type LoginArgs = {
-    email: string;
-    password: string;
-};
-
-type SignupArgs = {
-    name: string;
-    email: string;
-    password: string;
-};
-
+import { Context, LoginArgs, ServiceResponse, SignupArgs } from "../types/types";
 
 class AuthService {
-  static login = async (args: LoginArgs, context: Context) => {
-    // const { email, password } = args;
-    // const { logger, models } = context;
-    // const { Admin } = models;
+  static login = async (args: LoginArgs, context: Context): Promise<ServiceResponse> => {
+    const { email, password } = args;
+    const { logger, models } = context;
+    const { User } = models;
 
-    // const authUser = await Admin.findOne({ email });
-    // if (!authUser) return { success: false, error: `Incorrect Credentials` };
+    const authUser = await User.findOneByEmail(email);
+    if (!authUser) return { success: false, error: `Incorrect Credentials` };
 
-    // const match = await bcrypt.compare(password, authUser.password);
-    // if (!match) return { success: false, error: `Incorrect Credentials` };
+    const match = await bcrypt.compare(password, authUser.password);
+    if (!match) return { success: false, error: `Incorrect Credentials` };
 
-    // const payload = {
-    //   userEmail: email,
-    // };
-    // const token = jwt.sign(payload, secrets.jwt, {
-    //   expiresIn: '10d',
-    // });
+    const token = await admin.auth().createCustomToken(authUser.id, {
+      email: authUser.email
+    });
 
-    // logger(`[LOGIN]`, payload.userEmail);
+    logger(`[LOGIN]`, authUser.email);
 
-    // return { success: true, body: { message: 'Logged in', token } };
+    return { success: true, body: { message: 'Logged in', token } };
   };
 
-  static signup = async (args: SignupArgs, context: Context) => {
-    // const { email, password } = args;
-    // const { models, logger, userEmail } = context;
-    // const { Admin } = models;
+  static register = async (args: SignupArgs, context: Context): Promise<ServiceResponse> => {
+    const { name, email, password } = args;
+    const { models, logger } = context;
+    const { User } = models;
 
-    // const authUser = await Admin.findOne({ email });
-    // if (authUser) return { success: false, error: `User already exists` };
+    const authUser = await User.findOneByEmail(email);
+    if (authUser) return { success: false, error: `User already exists` };
 
-    // const hash = await bcrypt.hash(password, 10);
 
-    // await Admin.create({ email, password: hash });
+    const hash = await bcrypt.hash(password, 10);
+    const uid = await User.create({ name, email, password: hash });
 
-    // logger({ type: `warning` }, `[SIGNUP]`, email, `by: ${userEmail}`);
-
-    // return { success: true, body: { message: 'Signed up' } };
+    logger({ type: `warning` }, `[SIGNUP]`, email, uid);
+    return { success: true, body: { message: 'Successfully signed up', uid } };
   };
 }
 
