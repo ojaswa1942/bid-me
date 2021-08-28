@@ -17,7 +17,7 @@ class ProductsService {
 
   static bid = async (args: BidInput, context: Context): Promise<ServiceResponse> => {
     const { logger, models, uid, userEmail } = context;
-    const { Product } = models;
+    const { Product, User } = models;
 
     const userRef = { uid, email: userEmail } as UserRef;
 
@@ -39,7 +39,8 @@ class ProductsService {
       });
     });
 
-    console.log("updatedProduct", updatedProduct)
+    const updateUser = await User.addBid(userRef.uid, args);
+    if(!updateUser) return { success: false, error: "Could not sync bid with user. Please try placing the bid again or contact support for more information." };
 
     logger(`[BID_PRODUCT]`, userRef.email, product.id);
 

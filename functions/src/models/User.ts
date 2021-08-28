@@ -1,5 +1,5 @@
 import * as admin from "firebase-admin";
-import { SignupArgs, UserModel } from "../types/types";
+import { BidInput, SignupArgs, UserModel } from "../types/types";
 import { realtimeDatabase } from "../utils/config";
 
 export default class User {
@@ -54,5 +54,16 @@ export default class User {
         });
         
         return insertedUser.key as string;
+    };
+
+    static addBid = async (userId: string, bid: BidInput): Promise<boolean> => {
+        const userRef = admin.database().ref(`${realtimeDatabase.collections.users}/${userId}`);
+        try{
+            const res = await userRef.child('bids').push({ productId: bid.id, price: bid.price });
+            if(res.key) return true;
+            return false;
+        } catch(error) {
+            throw new Error("Could not add bid to user");            
+        }
     };
 }
