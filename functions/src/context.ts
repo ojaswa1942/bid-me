@@ -2,21 +2,23 @@ import * as admin from "firebase-admin";
 import { NextFunction, Request, Response } from "express";
 import logger from "./utils/logger.js";
 import models from "./models";
+import { Context } from "./types/types.js";
 
 // const jwt = require('jsonwebtoken');
 // import jwt from "jsonwebtoken";
 // import { secrets } from "./utils/config";
 
+export const getDefaultContext = (): Context => ({
+  models,
+  logger,
+  uid: null,
+  userEmail: null,
+  isAuthenticated: false,
+  isPrivileged: false,
+});
 
 const provideContext = async (req: Request, res: Response, next: NextFunction) => {
-  const context = {
-    models,
-    logger,
-    uid: null,
-    userEmail: null,
-    isAuthenticated: false,
-    isPrivileged: false,
-  };
+  const context = getDefaultContext();
 
   const authorizationHeader = req.headers?.authorization;
   if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {

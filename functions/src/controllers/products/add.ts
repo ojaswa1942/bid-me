@@ -1,8 +1,9 @@
 import { stripScriptTags } from "../../utils/helpers";
-import { AddProductInput, CustomRequest, CustomResponse } from "../../types/types";
+import { AddProductInput } from "../../types/types";
 import ProductsService from "../../services/ProductsService";
+import { Request, Response } from "express";
 
-const handleAddProduct = async (req: CustomRequest, res: CustomResponse) => {
+const handleAddProduct = async (req: Request, res: Response) => {
     try {
         let { name, description, imageUrl, startPrice, deadline } = req.body as AddProductInput;
         [name, description, imageUrl] = stripScriptTags(name, description, imageUrl);

@@ -64,8 +64,6 @@ export default class Product {
             [key]: val as ProductType}
         ));
         
-        console.log(transformedProducts);
-        
         return transformedProducts;
     };
 
@@ -98,5 +96,20 @@ export default class Product {
         const prodRef = transactionRes.snapshot;
                 
         return { ...prodRef.val(), id: prodRef.key };
+    };
+
+    static getExpiredProducts = async (): Promise<{[id: string]: ProductType}> => {
+        const productsRef = admin.database().ref(realtimeDatabase.collections.products);
+        const currentTime = Date.now();
+
+        const filteredRefValue = await productsRef.orderByChild('deadline').endAt(currentTime).once('value');
+
+        return filteredRefValue.val();
+    };
+
+    static updateMany = async (products: {[id: string]: any}): Promise<boolean> => {
+        const productsRef = admin.database().ref(realtimeDatabase.collections.products);
+        await productsRef.update(products);
+        return true;
     };
 }

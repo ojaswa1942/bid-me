@@ -1,8 +1,9 @@
 import { stripScriptTags } from "../../utils/helpers";
-import { BidInput, CustomRequest, CustomResponse } from "../../types/types";
 import ProductsService from "../../services/ProductsService";
+import { Request, Response } from "express";
+import { BidInput } from "../../types/types";
 
-const handleBidProduct = async (req: CustomRequest, res: CustomResponse) => {
+const handleBidProduct = async (req: Request, res: Response) => {
     try {
         let { id, price } = req.body as BidInput;
         [id] = stripScriptTags(id);

@@ -46,6 +46,28 @@ class ProductsService {
 
     return { success: true, body: { message: 'Successfully placed bid!', product: updatedProduct } };
   };
+
+  static checkAndCloseBid = async (context: Context): Promise<ServiceResponse> => {
+    const { logger, models } = context;
+    const { Product } = models;
+
+    const products = await Product.getExpiredProducts();
+    if (!products) return { success: false, error: `Could not fetch expired products` };
+
+    const updateObject = Object.keys(products).reduce((updateData, key) => {
+      if (products[key].isOpen) return {
+        ...updateData,
+        [`${key}/isOpen`]: false
+      };
+
+      return updateData;
+    }, {});
+
+    if(!(await Product.updateMany(updateObject))) return { success: false, error: "Could not close expired products" }; 
+
+    logger(`[PRODUCTS_CLOSE_BID]`, Object.keys(updateObject));
+    return { success: true, body: { message: 'Successfully closed completed bids for products' } };
+  };
 }
 
 export default ProductsService;

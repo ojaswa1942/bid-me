@@ -1,8 +1,8 @@
 import { stripScriptTags } from "../../utils/helpers";
-import { CustomRequest, CustomResponse } from "../../types/types";
 import AuthService from "../../services/AuthService";
+import { Response, Request } from "express";
 
-const handleLogin = async (req: CustomRequest, res: CustomResponse) => {
+const handleLogin = async (req: Request, res: Response) => {
     try {
         let { email, password } = req.body;
         [email] = stripScriptTags(email);

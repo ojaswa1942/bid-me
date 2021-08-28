@@ -4,6 +4,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 
 import routes from "./routes";
+import schedules from "./schedules";
 import provideContext from "./context";
 import { realtimeDatabase } from "./utils/config";
 import logger from "./utils/logger";
@@ -33,3 +34,4 @@ try {
 }
 
 exports.api = functions.https.onRequest(app);
+exports.schedules = schedules;
