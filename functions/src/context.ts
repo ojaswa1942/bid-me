@@ -18,8 +18,6 @@ const provideContext = async (req: Request, res: Response, next: NextFunction) =
     isPrivileged: false,
   };
 
-  console.log("Hey wtf?", req.originalUrl);
-
   const authorizationHeader = req.headers?.authorization;
   if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
     const token = authorizationHeader.replace('Bearer ', '').replace('bearer ', '');
@@ -27,10 +25,10 @@ const provideContext = async (req: Request, res: Response, next: NextFunction) =
       const decoded = await admin.auth().verifyIdToken(token);
       Object.assign(context, {
         uid: decoded.uid,
-        userEmail: decoded.email
+        userEmail: decoded.email,
+        isAuthenticated: true,
       });
 
-      context.isAuthenticated = true;
       if (context.userEmail === 'ojaswa1942@gmail.com') {
         context.isPrivileged = true;
       }

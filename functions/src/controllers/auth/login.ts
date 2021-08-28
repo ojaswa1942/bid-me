@@ -1,4 +1,3 @@
-// import AuthService from "../../services/AuthService";
 import { stripScriptTags } from "../../utils/helpers";
 import { CustomRequest, CustomResponse } from "../../types/types";
 import AuthService from "../../services/AuthService";
@@ -10,7 +9,7 @@ const handleLogin = async (req: CustomRequest, res: CustomResponse) => {
         if (!email || !password) {
           return res.status(400).json('Email and password are required');
         }
-        console.log("Context", req.context);
+
         const serviceRes = await AuthService.login({ email, password }, req.context);
         if (serviceRes.success) {
           return res.status(200).json(serviceRes.body);

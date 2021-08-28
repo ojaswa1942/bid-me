@@ -3,6 +3,7 @@ import models from "../models";
 
 export interface Models {
     User: typeof models.User
+    Product: typeof models.Product
 }
 
 export interface Context {
@@ -53,3 +54,42 @@ type FailureResponse = {
 }
 
 export type ServiceResponse = SuccessResponse | FailureResponse;
+
+export type UserRef = {
+    uid: string;
+    email: string;
+}
+
+export type BidDetails = {
+    startPrice: number;
+    currentPrice: number;
+    currentBidder: UserRef;
+    bids: number;
+}
+export interface Product {
+    name: string;
+    description: string;
+    imageUrl: string;
+    isOpen: boolean;
+    bid: BidDetails;
+    created: number;
+    deadline: number;
+    owner: UserRef;
+} 
+
+export interface ProductModel extends Product {
+    id: string;
+};
+
+export type AddProductInput = {
+    name: string;
+    description: string;
+    imageUrl: string;
+    startPrice: number;
+    deadline: number;
+}
+
+export type BidInput = {
+    id: string;
+    price: number;
+}
