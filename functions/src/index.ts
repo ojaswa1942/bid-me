@@ -25,8 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 try {
   app.use(provideContext);
 
-  app.get('/', (req: Request, res: Response) => res.sendStatus(200));
-  app.use('/', routes);
+  app.get('/api', (req: Request, res: Response) => res.sendStatus(200));
+  app.use('/api', routes);
 
 } catch (error) {
   logger({ type: `ERROR` }, `Unhandled Exception@server.js`);

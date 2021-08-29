@@ -1,0 +1,24 @@
+<div class="nav">
+    <div class="left">
+        <a [routerLink]="'/'">
+            <img class="logo" src="./assets/logo.png">
+        </a>
+</div>
+    <div class="right">
+        <a  *ngIf="!auth.attributes.isLoggedIn" class="nav-link" [routerLink]="['/login']" routerLinkActive="nav-link-active">
+            Login
+        </a>
+        <a  *ngIf="!auth.attributes.isLoggedIn" class="nav-link" [routerLink]="['/register']" routerLinkActive="nav-link-active">
+            Register
+        </a>
+        <a *ngIf="auth.attributes.isLoggedIn" class="nav-link" [routerLink]="['/products']" routerLinkActive="nav-link-active">
+            Products
+        </a>
+        <a *ngIf="auth.attributes.isLoggedIn" class="nav-link" [routerLink]="['/profile/bids']" routerLinkActive="nav-link-active">
+            Bids
+        </a>
+        <span *ngIf="auth.attributes.isLoggedIn" class="nav-link" (click)="auth.auth.signOut()" >
+            Logout
+        </span>
+    </div>
+</div>

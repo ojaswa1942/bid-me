@@ -6,6 +6,22 @@ const routes: Routes = [
   {
     path: "",
     component: HomeComponent
+  },
+  {
+    path: "login",
+    component: HomeComponent
+  },
+  {
+    path: "register",
+    component: HomeComponent
+  },
+  {
+    path: "products",
+    component: HomeComponent
+  },
+  {
+    path: "profile/bids",
+    component: HomeComponent
   }
 ];
 

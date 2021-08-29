@@ -1,0 +1,32 @@
+@import "src/app/shared/styles/variables";
+
+.nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    padding: 12px;
+    box-sizing: border-box;
+    width: 100%;
+    border-bottom: 1px $light-border solid;
+}
+
+.logo {
+    max-width: 60px;
+}
+
+.nav-link {
+    margin: 0 6px;
+    text-decoration: none;
+    color: $default-font-color;
+    cursor: pointer;
+}
+.nav-link:hover {
+    color: $primary-color;
+}
+.nav-link-active {
+    color: $primary-color;
+    font-weight: bold;
+}
