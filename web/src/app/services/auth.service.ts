@@ -1,24 +1,53 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import AuthAPIs from '../interfaces/apis/auth';
+import { LoginAuthService } from './models/auth.models';
+import { ServiceResponse } from './models/services.models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  attributes = {
-    isLoggedIn: false
+  attributes: {
+    isLoggedIn: boolean;
+    uid?: string;
+  } = {
+    isLoggedIn: false,
   }
 
-  constructor(public auth: AngularFireAuth) { }
+  constructor(public auth: AngularFireAuth) { 
+    this.auth.onAuthStateChanged(user => {
+      if(user) {
+        console.log("Hi user!");
+        this.attributes.isLoggedIn = true;
+        this.attributes.uid = user.uid;
+      } else {
+        console.log("user who? bye");
+        this.attributes = {
+          isLoggedIn: false,
+          uid: undefined
+        };
+      }
+    });
+  }
 
-  login = async () => {
+  login = async (): ServiceResponse<LoginAuthService> => {
     // Call to function to get token
     // use token
     // print id token
-    const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImlhdCI6MTYzMDE0MDkzMSwiZXhwIjoxNjMwMTQ0NTMxLCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1jdnVnaUBiaWQtbWUtZm4uaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJzdWIiOiJmaXJlYmFzZS1hZG1pbnNkay1jdnVnaUBiaWQtbWUtZm4uaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJ1aWQiOiItTWk3dDNzWnhNS3NyMjNWdWE2TyIsImNsYWltcyI6eyJlbWFpbCI6Im9qYXN3YTE5NDJAZ21haWwuY29tIn19.RSbzGhvmQdl0D4jK4ai6x7fZTBAQkM7S6QqeiZA7gWf8nQXUou4je5w-bZCr9hPCdCQ1-UEIVn7FJ1Ry-Z5rZ1JnkQstgKiooL9bW2DXlKGZtjxuH6-XQLMktHmUL1aFDjxvDqLiLyEVE9tt2EyYATK4zKC4RRjHSumIN3NtoPrax5KfeGkF6fQyVNHF0tXw7bdjHEbA7lIz8cqWAddywvfwVD1BCrHvaiZCNenVbqJ70EEsgiKd3LDXWLm5VeYMA33gifKYNCJHSsFK_XWZSmruLqVyDUeBD6vJI8PkximFrETCUG6RDm2jcdwC3_IH6DK3xSb8_49Sefg3ONRPOA";
-    const userCreds = await this.auth.signInWithCustomToken(token);
-    const idToken = await userCreds.user?.getIdToken();
-    console.log("idToken", idToken);
-    // const userCredentials = firebase.auth
+    const authInterface = new AuthAPIs();
+    const authRes = await authInterface.login("ojaswa1942@gmail.com", "password");
+    if(authRes.success) {
+      try {
+        const userCreds = await this.auth.signInWithCustomToken(authRes.data.token);
+        const idToken = await userCreds.user?.getIdToken();
+        
+      } catch (e) {
+        console.error("Some error occurred while logging in:",  e);
+        return { success: false, error: e };
+      }
+    }
+
+    return authRes;
   }
 }
