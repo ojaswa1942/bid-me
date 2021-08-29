@@ -17,7 +17,7 @@
         <a *ngIf="auth.attributes.isLoggedIn" class="nav-link" [routerLink]="['/profile/bids']" routerLinkActive="nav-link-active">
             Bids
         </a>
-        <span *ngIf="auth.attributes.isLoggedIn" class="nav-link" (click)="auth.auth.signOut()" >
+        <span *ngIf="auth.attributes.isLoggedIn" class="nav-link" (click)="auth.signout()" >
             Logout
         </span>
     </div>

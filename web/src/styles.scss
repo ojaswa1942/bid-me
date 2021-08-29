@@ -3,6 +3,11 @@
 @import "app/shared/styles/variables";
 
 body {
+    background-color: $background-color;
     font-family: $default-font;
     color: $default-font-color;
+    min-height: 100vh;
+    margin: 0;
+    padding: 10px;
+    box-sizing: border-box;
 }

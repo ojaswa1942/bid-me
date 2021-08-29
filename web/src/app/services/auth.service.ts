@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Router } from '@angular/router';
 import AuthAPIs from '../interfaces/apis/auth';
 import { LoginAuthService } from './models/auth.models';
 import { ServiceResponse } from './models/services.models';
@@ -15,33 +16,27 @@ export class AuthService {
     isLoggedIn: false,
   }
 
-  constructor(public auth: AngularFireAuth) { 
+  constructor(private auth: AngularFireAuth, private router: Router) { 
     this.auth.onAuthStateChanged(user => {
       if(user) {
-        console.log("Hi user!");
         this.attributes.isLoggedIn = true;
         this.attributes.uid = user.uid;
       } else {
-        console.log("user who? bye");
         this.attributes = {
           isLoggedIn: false,
           uid: undefined
         };
+        this.router.navigate(["/login"]);
       }
     });
   }
 
-  login = async (): ServiceResponse<LoginAuthService> => {
-    // Call to function to get token
-    // use token
-    // print id token
+  login = async (email: string, password: string): ServiceResponse<LoginAuthService> => {
     const authInterface = new AuthAPIs();
-    const authRes = await authInterface.login("ojaswa1942@gmail.com", "password");
+    const authRes = await authInterface.login(email, password);
     if(authRes.success) {
       try {
-        const userCreds = await this.auth.signInWithCustomToken(authRes.data.token);
-        const idToken = await userCreds.user?.getIdToken();
-        
+        await this.auth.signInWithCustomToken(authRes.data.token);
       } catch (e) {
         console.error("Some error occurred while logging in:",  e);
         return { success: false, error: e };
@@ -49,5 +44,9 @@ export class AuthService {
     }
 
     return authRes;
+  }
+
+  signout = async (): Promise<void> => {
+    return this.auth.signOut();
   }
 }

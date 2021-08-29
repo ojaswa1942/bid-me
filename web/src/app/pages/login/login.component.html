@@ -1,0 +1,21 @@
+<div class="page">
+    <div class="heading">Login</div>
+    <bm-form-container>
+        <form class="form-box" (submit)="onSubmit($event, email.value, password.value)">
+            <div class="form-input-container">
+                <label for="login-email">Email:</label>
+                <input type="email" required id="login-email" #email />
+            </div>
+            <div class="form-input-container">
+                <label for="login-password">Password:</label>
+                <input type="password" required id="login-password" #password />
+            </div>
+
+            <div class="error" *ngIf="formError" > {{ formError }} </div>
+
+            <div class="form-input-container">
+                <button type="submit" [disabled]="loading" >Login</button>
+            </div>
+        </form>
+    </bm-form-container>
+</div>

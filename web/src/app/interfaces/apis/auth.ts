@@ -21,7 +21,7 @@ class AuthAPIs {
             return successInterfaceResponse<LoginResponse>(dataResponse.data);
         } catch(error) {
             console.error("Login failed with error:", error);
-            return { success: false, error };
+            return { success: false, error: error?.response?.data || "Something went wrong" };
         }
     }
 
