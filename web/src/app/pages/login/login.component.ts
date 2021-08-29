@@ -15,6 +15,9 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private routerService: Router) { }
 
   ngOnInit(): void {
+    if(this.authService.attributes.isLoggedIn) {
+      this.routerService.navigate(["/", "products"]);
+    }
   }
 
   onSubmit = async (e: Event, email: string, password: string) => {

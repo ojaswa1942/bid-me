@@ -10,9 +10,11 @@ import { ServiceResponse } from './models/services.models';
 })
 export class AuthService {
   attributes: {
+    init: boolean;
     isLoggedIn: boolean;
     uid?: string;
   } = {
+    init: true,
     isLoggedIn: false,
   }
 
@@ -21,12 +23,21 @@ export class AuthService {
       if(user) {
         this.attributes.isLoggedIn = true;
         this.attributes.uid = user.uid;
+
+        if(this.attributes.init && ["/login", "/register"].includes(this.router.url)) {
+          this.router.navigate(["/", "products"]);
+          this.attributes.init = false;
+        }
       } else {
         this.attributes = {
+          ...this.attributes,
           isLoggedIn: false,
           uid: undefined
         };
-        this.router.navigate(["/login"]);
+        if(this.attributes.init && !["/login", "/register"].includes(this.router.url)) {
+          this.router.navigate(["/login"]);
+          this.attributes.init = false;
+        }
       }
     });
   }
