@@ -11,6 +11,7 @@ export class RegisterComponent implements OnInit {
   formError = "";
   passError = false;
   loading = false;
+  showAck = "";
 
   constructor(private authService: AuthService, private routerService: Router) { }
 
@@ -30,14 +31,14 @@ export class RegisterComponent implements OnInit {
 
     this.formError = "";
     this.loading = true;
-    const loginRes = { success: true, error: "" };
-    // const loginRes = await this.authService.login(email, password);
+    const registerRes = await this.authService.register(name, email, password);
     this.loading = false;
 
-    if(loginRes.success) {
-      this.routerService.navigate(["/", "products"]);
+    if(registerRes.success) {
+      this.showAck = registerRes.data.message;
+      window.setTimeout(() => this.routerService.navigate(["/", "login"]), 3000);
     } else {
-      this.formError = loginRes.error;
+      this.formError = registerRes.error;
     }
   }
 

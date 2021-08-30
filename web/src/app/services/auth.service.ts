@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import AuthAPIs from '../interfaces/apis/auth';
-import { LoginAuthService } from './models/auth.models';
+import { LoginAuthService, RegisterAuthService } from './models/auth.models';
 import { ServiceResponse } from './models/services.models';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class AuthService {
   } = {
     init: true,
     isLoggedIn: false,
-  }
+  };
 
   constructor(private auth: AngularFireAuth, private router: Router) { 
     this.auth.onAuthStateChanged(user => {
@@ -34,13 +34,12 @@ export class AuthService {
           isLoggedIn: false,
           uid: undefined
         };
-        if(this.attributes.init && !["/login", "/register"].includes(this.router.url)) {
+        if(!["/login", "/register"].includes(this.router.url)) {  // also covers init case 
           this.router.navigate(["/login"]);
-          this.attributes.init = false;
         }
       }
     });
-  }
+  };
 
   login = async (email: string, password: string): ServiceResponse<LoginAuthService> => {
     const authInterface = new AuthAPIs();
@@ -55,9 +54,15 @@ export class AuthService {
     }
 
     return authRes;
-  }
+  };
 
   signout = async (): Promise<void> => {
     return this.auth.signOut();
-  }
+  };
+
+  register = async (name: string, email: string, password: string): ServiceResponse<RegisterAuthService> => {
+    const authInterface = new AuthAPIs();
+    const authRes = await authInterface.register(name, email, password);
+    return authRes;
+  };
 }

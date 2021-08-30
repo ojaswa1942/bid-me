@@ -68,8 +68,8 @@ button:hover {
     filter: saturate(0.2);
 }
 
-button:disabled {
-    filter: grayscale(1);
+button:disabled, button[disabled] {
+    background-color: darkgray !important;
     cursor: not-allowed;
 }
 

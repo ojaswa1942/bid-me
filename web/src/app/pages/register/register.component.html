@@ -1,29 +1,32 @@
 <div class="page">
     <div class="heading">Register</div>
     <bm-form-container>
-        <form class="form-box" (submit)="onSubmit($event, name.value, email.value, cpassword.value)">
-            <div class="form-input-container">
-                <label for="register-name">Name:</label>
-                <input type="text" required id="register-name" #name />
-            </div>
-            <div class="form-input-container">
-                <label for="register-email">Email:</label>
-                <input type="email" required id="register-email" #email />
-            </div>
-            <div class="form-input-container">
-                <label for="register-password">Password:</label>
-                <input type="password" required id="register-password" name="register-password" #password [minLength]=6 />
-            </div>
-            <div class="form-input-container">
-                <label for="register-cpassword">Confirm Password:</label>
-                <input type="password" required id="register-cpassword" name="register-cpassword" #cpassword (input)="handlePasswordChange(password.value, cpassword.value)" />
-            </div>
+        <div *ngIf="showAck; else registerForm" > {{ showAck }} </div>
+        <ng-template #registerForm>
+            <form class="form-box" (submit)="onSubmit($event, name.value, email.value, cpassword.value)">
+                <div class="form-input-container">
+                    <label for="register-name">Name:</label>
+                    <input type="text" required id="register-name" #name />
+                </div>
+                <div class="form-input-container">
+                    <label for="register-email">Email:</label>
+                    <input type="email" required id="register-email" #email />
+                </div>
+                <div class="form-input-container">
+                    <label for="register-password">Password:</label>
+                    <input type="password" required id="register-password" name="register-password" #password [minLength]=6 />
+                </div>
+                <div class="form-input-container">
+                    <label for="register-cpassword">Confirm Password:</label>
+                    <input type="password" required id="register-cpassword" name="register-cpassword" #cpassword (input)="handlePasswordChange(password.value, cpassword.value)" />
+                </div>
 
-            <div class="error" *ngIf="formError" > {{ formError }} </div>
+                <div class="error" *ngIf="formError" > {{ formError }} </div>
 
-            <div class="form-input-container">
-                <button type="submit" [disabled]="loading" >Register</button>
-            </div>
-        </form>
+                <div class="form-input-container">
+                    <button type="submit" [disabled]="loading" >Register</button>
+                </div>
+            </form>
+        </ng-template>
     </bm-form-container>
 </div>
