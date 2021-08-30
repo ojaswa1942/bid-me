@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import AuthAPIs from '../interfaces/apis/auth';
 import { LoginAuthService, RegisterAuthService } from './models/auth.models';
-import { ServiceResponse } from './models/services.models';
+import { ServiceResponsePromise } from './models/services.models';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,7 @@ export class AuthService {
     });
   };
 
-  login = async (email: string, password: string): ServiceResponse<LoginAuthService> => {
+  login = async (email: string, password: string): ServiceResponsePromise<LoginAuthService> => {
     const authInterface = new AuthAPIs();
     const authRes = await authInterface.login(email, password);
     if(authRes.success) {
@@ -60,7 +60,7 @@ export class AuthService {
     return this.auth.signOut();
   };
 
-  register = async (name: string, email: string, password: string): ServiceResponse<RegisterAuthService> => {
+  register = async (name: string, email: string, password: string): ServiceResponsePromise<RegisterAuthService> => {
     const authInterface = new AuthAPIs();
     const authRes = await authInterface.register(name, email, password);
     return authRes;

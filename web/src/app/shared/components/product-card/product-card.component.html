@@ -1,0 +1,30 @@
+<div class="card" *ngIf="product">
+    <div class="card-left">
+        <img class="image" [src]="product.imageUrl || './assets/productDefault.jpg'" />
+    </div>
+    <div class="card-right">
+        <div class="card-row">
+            <span class="card-row-head">Name: </span>
+            <span class="card-row-data">{{ product.name }}</span>
+        </div>
+        <div class="card-row">
+            <span class="card-row-head">Description: </span>
+            <span class="card-row-data">{{ product.description || "No description available" }}</span>
+        </div>
+        <div class="card-row">
+            <span class="card-row-head">Owner Contact: </span>
+            <span class="card-row-data">{{ product.owner.email }}</span>
+        </div>
+        <div class="card-row">
+            <span class="card-row-head">Current Price: </span>
+            <span class="card-row-data special badge">Rs. {{ product.bid.currentPrice }}</span>
+        </div>
+        <div class="card-row">
+            <span class="card-row-head">Closes on</span>
+            <span class="card-row-data special">{{ product.deadline | date:'short' }}</span>
+        </div>
+        <div class="card-row">
+            <span class="card-row-data small">*Bid opened at Rs. {{ product.bid.startPrice }} on {{ product.created | date:'short'  }} </span>
+        </div>
+    </div>
+</div>

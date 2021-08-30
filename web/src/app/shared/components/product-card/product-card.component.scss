@@ -1,0 +1,62 @@
+@import "../../styles/classes.scss";
+@import "../../styles/variables.scss";
+
+.card {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    width: 80%;
+    min-width: 600px;
+    transition: all 0.1s linear;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.01);
+}
+
+.card-left {
+    width: 30%;
+    // min-wid
+}
+
+.card-left img {
+    width: 120px;
+}
+
+.card-right {
+    width: 100%;
+}
+
+.card-row {
+    padding: 4px;    
+}
+.card-row-head {
+    font-weight: bold;
+    font-size: large;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+.badge {
+    display: inline-block;
+    font-weight: bold;
+    color: white;
+    padding: 0.8em 0.7em 0 0.7em;
+    background-color:#405061;
+    line-height: 1em;
+    position: relative;
+    left: -1px;
+    top: -4px;
+    height: 1.8em;
+    min-width: 16px;
+    text-align: right;
+    margin-right: .8em;
+    border-radius: 4px 0 0 4px;
+}
+
+ .small {
+    font-size: small;
+ }
