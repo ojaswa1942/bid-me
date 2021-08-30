@@ -1,14 +1,14 @@
 export type UserRef = {
     uid: string;
     email: string;
-}
+};
 
 export type BidDetails = {
     startPrice: number;
     currentPrice: number;
     currentBidder: UserRef;
     bids: number;
-}
+};
 
 export interface Product {
     id: string;
@@ -20,4 +20,9 @@ export interface Product {
     created: number;
     deadline: number;
     owner: UserRef;
-} 
+};
+
+export type BidProductService = {
+    message: string;
+    product: Product;
+};

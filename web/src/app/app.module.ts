@@ -15,6 +15,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { FormsModule } from '@angular/forms';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductCardComponent } from './shared/components/product-card/product-card.component';
+import { ProductBidComponent } from './shared/components/product-bid/product-bid.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ProductCardComponent } from './shared/components/product-card/product-c
     LoginComponent,
     RegisterComponent,
     ProductsComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    ProductBidComponent
   ],
   imports: [
     BrowserModule,

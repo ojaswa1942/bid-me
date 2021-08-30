@@ -5,9 +5,11 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import AuthAPIs from '../interfaces/apis/auth';
+import ProductsAPIs from '../interfaces/apis/products';
 import FirebaseAPIs from '../interfaces/firebase/firebase';
+import { AuthService } from './auth.service';
 import { LoginAuthService, RegisterAuthService } from './models/auth.models';
-import { Product } from './models/products.models';
+import { BidProductService, Product } from './models/products.models';
 import { ServiceResponse, ServiceResponsePromise } from './models/services.models';
 
 @Injectable({
@@ -23,7 +25,7 @@ export class ProductsService {
     isLoggedIn: false,
   };
 
-  constructor(private firebase: AngularFireDatabase) { 
+  constructor(private firebase: AngularFireDatabase, private authService: AuthService) { 
   };
 
   getAll = (): ServiceResponse<Observable<Product[]>> => {
@@ -33,9 +35,12 @@ export class ProductsService {
     return authRes;
   };
 
-  register = async (name: string, email: string, password: string): ServiceResponsePromise<RegisterAuthService> => {
-    const authInterface = new AuthAPIs();
-    const authRes = await authInterface.register(name, email, password);
+  bid = async (productId: string, price: Number): ServiceResponsePromise<BidProductService> => {
+    const idtTokenRes = await this.authService.getIdToken();
+    if(!idtTokenRes.success) return idtTokenRes;
+
+    const productsInterface = new ProductsAPIs(idtTokenRes.data);
+    const authRes = await productsInterface.bid(productId, price);
     return authRes;
   };
 }

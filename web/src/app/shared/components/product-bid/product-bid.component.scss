@@ -1,0 +1,21 @@
+@import "../../styles/classes.scss";
+@import "../../styles/variables.scss";
+
+.control {
+    margin: 0 3px;
+}
+
+.icon {
+    padding: 6px;
+    font-size: large;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cross {
+    color: darkred;
+}
+
+.tick {
+    color: seagreen;
+}

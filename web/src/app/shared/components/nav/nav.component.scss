@@ -11,6 +11,8 @@
     box-sizing: border-box;
     width: 100%;
     border-bottom: 1px $light-border solid;
+    background: $background-color;
+    z-index: 1;
 }
 
 .logo {

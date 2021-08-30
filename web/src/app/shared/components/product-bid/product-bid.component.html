@@ -1,0 +1,9 @@
+<div *ngIf="product">
+    <span class="control">
+        <input type="number" id="price" name="price" #price [min]="product.bid.currentPrice + 1" [defaultValue]="product.bid.currentPrice + 1" >
+    </span>
+    <span class="control icon tick" (click)="handleTick(Number(price.value))" >&#x2714;</span>
+    <span class="control icon cross" (click)="toggleShowBid.emit()" >&#x2718;</span>
+
+    <div class="error" *ngIf="formError" > {{ formError }} </div>
+</div>

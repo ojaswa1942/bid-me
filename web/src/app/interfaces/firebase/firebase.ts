@@ -1,7 +1,7 @@
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AngularFireDatabase } from "@angular/fire/compat/database";
 import axios, { AxiosInstance } from "axios"
-import { Observable } from "rxjs";
+import { map } from 'rxjs/operators';
 import { Product } from "src/app/services/models/products.models";
 import { environment } from "src/environments/environment"
 import { InterfaceResponse, InterfaceResponsePromise, successInterfacePromiseResponse, successInterfaceResponse } from "../models/interface";
@@ -16,10 +16,18 @@ class FirebaseAPIs {
 
     public listOpenProducts = (): InterfaceResponse<ProductListResponse> => {
         try {
-            const products = this.db.list<Product>("products", (ref) => {
+            const productsSnapshot = this.db.list<Product>("products", (ref) => {
                 return ref.orderByChild("isOpen").equalTo(true)
-            }).valueChanges();
-            return successInterfaceResponse<ProductListResponse>(products);
+            }).snapshotChanges().pipe(map(actions => {
+                return actions.map(actionData => {
+                    const productData = actionData.payload.val() as Product;
+                    return {
+                        ...productData,
+                        id: actionData.key as string
+                    }
+                });
+            })); 
+            return successInterfaceResponse<ProductListResponse>(productsSnapshot);
         } catch(error) {
             console.error("Login failed with error:", error);
             return { success: false, error: error?.response?.data || "Something went wrong" };

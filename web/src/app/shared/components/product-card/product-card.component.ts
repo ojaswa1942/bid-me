@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { Product } from 'src/app/services/models/products.models';
 
 @Component({
@@ -8,10 +9,17 @@ import { Product } from 'src/app/services/models/products.models';
 })
 export class ProductCardComponent implements OnInit {
   @Input() product?: Product;
+  showBid: boolean = false;
+  authenticatedUser?: string;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authenticatedUser = this.authService.attributes.uid;
+  }
+
+  handleClick = () => {
+    this.showBid = true;
   }
 
 }

@@ -1,29 +1,35 @@
 import axios, { AxiosInstance } from "axios"
-// import { environment } from "src/environments/environment"
-// import { InterfaceResponsePromise, successInterfacePromiseResponse } from "../models/interface";
-// import { LoginResponse, RegisterResponse } from "../models/responses";
+import { Product } from "src/app/services/models/products.models";
+import { InterfaceResponsePromise, successInterfacePromiseResponse } from "../models/interface";
+import { BidResponse, LoginResponse, RegisterResponse } from "../models/responses";
 
 class ProductsAPIs {
+    private idt: string = "";
+
+    constructor(idToken: string) {
+        this.idt = idToken;
+    }
 
     private getClient = (): AxiosInstance => {
         return axios.create({
             baseURL: `/api/products`,
             headers: {
                 'content-type': 'application/json',
+                'authorization': `Bearer ${this.idt}`,
             }
         });
     };
     
-    // public add = async (email: string, password: string): InterfaceResponsePromise<LoginResponse> => {
-    //     try {
-    //         const client = this.getClient();
-    //         const dataResponse = await client.post<LoginResponse>("/add", { email, password });
-    //         return successInterfacePromiseResponse<LoginResponse>(dataResponse.data);
-    //     } catch(error) {
-    //         console.error("Login failed with error:", error);
-    //         return { success: false, error: error?.response?.data || "Something went wrong" };
-    //     }
-    // };
+    public bid = async (id: string, price: Number): InterfaceResponsePromise<BidResponse> => {
+        try {
+            const client = this.getClient();
+            const dataResponse = await client.post<BidResponse>("/bid", { id, price });
+            return successInterfacePromiseResponse<BidResponse>(dataResponse.data);
+        } catch(error) {
+            console.error("Bid failed with error:", error);
+            return { success: false, error: error?.response?.data || "Something went wrong" };
+        }
+    };
 
     // public bid = async (name: string, email: string, password: string): InterfaceResponsePromise<RegisterResponse> => {
     //     try {

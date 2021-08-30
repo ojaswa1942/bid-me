@@ -12,3 +12,8 @@ export type RegisterResponse = {
 };
 
 export type ProductListResponse = Observable<Product[]>
+
+export type BidResponse = {
+    message: string;
+    product: Product;
+};
