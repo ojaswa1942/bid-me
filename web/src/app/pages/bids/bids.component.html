@@ -1,0 +1,13 @@
+<div class="page">
+    <div class="heading">My Bids</div>
+
+    <div class="products">
+        <bm-product-card 
+            *ngFor="let productBid of productBids" 
+            [title]="productBid.product.name" 
+            [product]="productBid.product"
+            [userBid]="productBid.price"
+        >
+        </bm-product-card>
+    </div>
+</div>

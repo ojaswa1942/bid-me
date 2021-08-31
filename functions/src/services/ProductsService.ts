@@ -31,6 +31,9 @@ class ProductsService {
 
     const product = await Product.findById(args.id);
     if (!product) return { success: false, error: `No such product found` };
+
+    if(!product.isOpen || product.deadline < Date.now()) return { success: false, error: `Bid for the product is now closed.` };
+
     if ( args.price <= product.bid.currentPrice ) return { success: false, error: `Price cannot be less or equal to current bid (${product.bid.currentPrice})` };
 
     // for atomic increment of bids count

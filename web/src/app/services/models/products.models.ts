@@ -34,3 +34,8 @@ export type AddProductInput = {
     description?: string;
     imageUrl?: string;
 };
+
+export type MyBidProducts = {
+    price: number;
+    product: Product;
+}[];

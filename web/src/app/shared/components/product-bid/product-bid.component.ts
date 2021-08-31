@@ -22,7 +22,6 @@ export class ProductBidComponent implements OnInit {
   handleTick = async (price: number) => {
     if( this.product && price > (this.product?.bid.currentPrice as number)) {
       this.formError = "";
-      console.log("tick tick", this.product, this.product.id);
       const response = await this.productService.bid(this.product.id, price);
       if(response.success) {
         this.toggleShowBid.emit();

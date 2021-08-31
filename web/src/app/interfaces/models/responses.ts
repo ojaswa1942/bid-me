@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { Product } from "src/app/services/models/products.models";
+import { MyBidProducts, Product } from "src/app/services/models/products.models";
 
 export type LoginResponse = {
     message: string;
@@ -16,4 +16,9 @@ export type ProductListResponse = Observable<Product[]>
 export type ProductResponse = {
     message: string;
     product: Product;
+};
+
+export type ProductBidResponse = {
+    message: string;
+    bids: MyBidProducts;
 };

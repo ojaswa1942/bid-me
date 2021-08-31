@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddProductComponent } from './pages/add-product/add-product.component';
+import { BidsComponent } from './pages/bids/bids.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProductsComponent } from './pages/products/products.component';
@@ -29,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: "profile/bids",
-    component: HomeComponent
+    component: BidsComponent
   }
 ];
 

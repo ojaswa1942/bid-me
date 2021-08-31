@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios"
 import { AddProductInput, Product } from "src/app/services/models/products.models";
 import { InterfaceResponsePromise, successInterfacePromiseResponse } from "../models/interface";
-import { ProductResponse, LoginResponse, RegisterResponse } from "../models/responses";
+import { ProductResponse, LoginResponse, RegisterResponse, ProductBidResponse } from "../models/responses";
 
 class ProductsAPIs {
     private idt: string = "";
@@ -36,6 +36,17 @@ class ProductsAPIs {
             const client = this.getClient();
             const dataResponse = await client.post<ProductResponse>("/add", product);
             return successInterfacePromiseResponse<ProductResponse>(dataResponse.data);
+        } catch(error) {
+            console.error("Bid failed with error:", error);
+            return { success: false, error: error?.response?.data || "Something went wrong" };
+        }
+    };
+
+    public getSelfBids = async (): InterfaceResponsePromise<ProductBidResponse> => {
+        try {
+            const client = this.getClient();
+            const dataResponse = await client.get<ProductBidResponse>("/bids");
+            return successInterfacePromiseResponse<ProductBidResponse>(dataResponse.data);
         } catch(error) {
             console.error("Bid failed with error:", error);
             return { success: false, error: error?.response?.data || "Something went wrong" };

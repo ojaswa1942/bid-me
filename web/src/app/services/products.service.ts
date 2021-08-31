@@ -9,7 +9,7 @@ import ProductsAPIs from '../interfaces/apis/products';
 import FirebaseAPIs from '../interfaces/firebase/firebase';
 import { AuthService } from './auth.service';
 import { LoginAuthService, RegisterAuthService } from './models/auth.models';
-import { AddProductInput, BidProductService, Product } from './models/products.models';
+import { AddProductInput, BidProductService, MyBidProducts, Product } from './models/products.models';
 import { ServiceResponse, ServiceResponsePromise } from './models/services.models';
 
 @Injectable({
@@ -30,9 +30,9 @@ export class ProductsService {
 
   getAll = (): ServiceResponse<Observable<Product[]>> => {
     const firebaseInterface = new FirebaseAPIs(this.firebase);
-    const authRes = firebaseInterface.listOpenProducts();
+    const res = firebaseInterface.listOpenProducts();
 
-    return authRes;
+    return res;
   };
 
   bid = async (productId: string, price: Number): ServiceResponsePromise<BidProductService> => {
@@ -50,6 +50,18 @@ export class ProductsService {
 
     const productsInterface = new ProductsAPIs(idtTokenRes.data);
     const authRes = await productsInterface.add(product);
+    return authRes;
+  };
+
+  getBids = async (): ServiceResponsePromise<MyBidProducts> => {
+    const idtTokenRes = await this.authService.getIdToken();
+    if(!idtTokenRes.success) return idtTokenRes;
+
+    const productsInterface = new ProductsAPIs(idtTokenRes.data);
+    const authRes = await productsInterface.getSelfBids();
+    if(authRes.success) {
+      return { success: true, data: authRes.data.bids };
+    }
     return authRes;
   };
 }

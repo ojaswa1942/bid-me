@@ -17,6 +17,7 @@ import { ProductsComponent } from './pages/products/products.component';
 import { ProductCardComponent } from './shared/components/product-card/product-card.component';
 import { ProductBidComponent } from './shared/components/product-bid/product-bid.component';
 import { AddProductComponent } from './pages/add-product/add-product.component';
+import { BidsComponent } from './pages/bids/bids.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AddProductComponent } from './pages/add-product/add-product.component';
     ProductsComponent,
     ProductCardComponent,
     ProductBidComponent,
-    AddProductComponent
+    AddProductComponent,
+    BidsComponent
   ],
   imports: [
     BrowserModule,

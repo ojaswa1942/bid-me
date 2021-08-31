@@ -9,6 +9,7 @@ import { Product } from 'src/app/services/models/products.models';
 })
 export class ProductCardComponent implements OnInit {
   @Input() product?: Product;
+  @Input() userBid?: number;
   showBid: boolean = false;
   authenticatedUser?: string;
 

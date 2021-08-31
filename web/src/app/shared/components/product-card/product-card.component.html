@@ -18,25 +18,33 @@
         <div class="card-row">
             <span class="card-row-head">Current Bid Price: </span>
             <span class="card-row-data special badge">Rs. {{ product.bid.currentPrice }}</span>
-            <span *ngIf="product.bid.currentBidder.uid === authenticatedUser" class="card-row-data special">(You have the highest bid!)</span>
+            <span *ngIf="product.bid.currentBidder.uid === authenticatedUser && product.bid.bids" class="card-row-data special">(You have the highest bid!)</span>
+            <!-- <span *ngIf="product.bid.bids === 0" class="card-row-data special">(There are no bids yet.)</span> -->
         </div>
         <div class="card-row">
             <span class="card-row-head">Bids: </span>
             <span class="card-row-data special">{{product.bid.bids}} bids placed</span>
         </div>
         <div class="card-row">
-            <span class="card-row-head">Closes on</span>
+            <span *ngIf="product.isOpen" class="card-row-head">Closes on</span>
+            <span *ngIf="!product.isOpen" class="card-row-head">Closed on</span>
             <span class="card-row-data special">{{ product.deadline | date:'short' }}</span>
         </div>
         <div class="card-row">
             <span class="card-row-data small">*Bid opened at Rs. {{ product.bid.startPrice }} on {{ product.created | date:'short'  }} </span>
         </div>
-        <div class="card-row input-row">
+        
+        <div *ngIf="product.isOpen" class="card-row input-row">
             <button class="action" (click)="handleClick()">
                 Place Bid
             </button>
             <bm-product-bid *ngIf="showBid" (toggleShowBid)="showBid=!showBid" [product]="product"></bm-product-bid>
-
         </div>
+
+        <div *ngIf="userBid" class="card-row">
+            <span class="card-row-head">You placed a bid of Rs. {{ userBid }} </span>
+            <!-- <span class="card-row-data special">{{ product.deadline | date:'short' }}</span> -->
+        </div>
+
     </div>
 </div>
