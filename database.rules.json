@@ -2,11 +2,13 @@
   "rules": {
     ".write": false,
     "products": {
-      ".read": "auth != null"
+      ".read": "auth != null",
+      ".indexOn": ["isOpen", "deadline", "owner/email", "owner/uid", "bid/currentBidder/email", "bid/currentBidder/uid"]
     },
     "users": {
       "$uid": {
-        ".read": "$uid === auth.uid"
+        ".read": "$uid === auth.uid",
+        ".indexOn": ["email"]
       }
     }
   }
