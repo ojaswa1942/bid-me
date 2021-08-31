@@ -13,7 +13,7 @@ export type RegisterResponse = {
 
 export type ProductListResponse = Observable<Product[]>
 
-export type BidResponse = {
+export type ProductResponse = {
     message: string;
     product: Product;
 };

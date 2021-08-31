@@ -9,7 +9,7 @@ import ProductsAPIs from '../interfaces/apis/products';
 import FirebaseAPIs from '../interfaces/firebase/firebase';
 import { AuthService } from './auth.service';
 import { LoginAuthService, RegisterAuthService } from './models/auth.models';
-import { BidProductService, Product } from './models/products.models';
+import { AddProductInput, BidProductService, Product } from './models/products.models';
 import { ServiceResponse, ServiceResponsePromise } from './models/services.models';
 
 @Injectable({
@@ -41,6 +41,15 @@ export class ProductsService {
 
     const productsInterface = new ProductsAPIs(idtTokenRes.data);
     const authRes = await productsInterface.bid(productId, price);
+    return authRes;
+  };
+
+  add = async (product: AddProductInput): ServiceResponsePromise<BidProductService> => {
+    const idtTokenRes = await this.authService.getIdToken();
+    if(!idtTokenRes.success) return idtTokenRes;
+
+    const productsInterface = new ProductsAPIs(idtTokenRes.data);
+    const authRes = await productsInterface.add(product);
     return authRes;
   };
 }

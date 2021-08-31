@@ -1,0 +1,45 @@
+<div class="page">
+    <div class="heading">Add Product</div>
+    <bm-form-container>
+        <div *ngIf="showAck; else addForm" > {{ showAck }} </div>
+        <ng-template #addForm>
+            <form 
+                class="form-box" 
+                (submit)="onSubmit($event, {
+                    name: name.value,
+                    description: description.value,
+                    imageUrl: imageUrl.value,
+                    startPrice: price.valueAsNumber,
+                    deadline: deadline.valueAsNumber
+                })"
+            >
+                <div class="form-input-container">
+                    <label for="add-name">Name*:</label>
+                    <input type="text" required id="add-name" #name />
+                </div>
+                <div class="form-input-container">
+                    <label for="add-description">Description:</label>
+                    <input type="text" id="add-description" #description />
+                </div>
+                <div class="form-input-container">
+                    <label for="add-image">Image URL:</label>
+                    <input type="string" id="add-image" #imageUrl />
+                </div>
+                <div class="form-input-container">
+                    <label for="add-price">Price*:</label>
+                    <input required type="number" min=1 required id="add-price" #price />
+                </div>
+                <div class="form-input-container">
+                    <label for="add-deadline">Deadline*:</label>
+                    <input required type="datetime-local" [min]="minDeadlineLimit" required id="add-deadline" #deadline />
+                </div>
+
+                <div class="error" *ngIf="formError" > {{ formError }} </div>
+
+                <div class="form-input-container">
+                    <button type="submit" [disabled]="loading" >Add Product</button>
+                </div>
+            </form>
+        </ng-template>
+    </bm-form-container>
+</div>

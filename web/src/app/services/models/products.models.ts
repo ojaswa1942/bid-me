@@ -26,3 +26,11 @@ export type BidProductService = {
     message: string;
     product: Product;
 };
+
+export type AddProductInput = {
+    name: string;
+    startPrice: number;
+    deadline: number;
+    description?: string;
+    imageUrl?: string;
+};

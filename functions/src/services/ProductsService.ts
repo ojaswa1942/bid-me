@@ -7,6 +7,14 @@ class ProductsService {
 
     const userRef = { uid, email: userEmail } as UserRef;
 
+    if(args.deadline < Date.now()) {
+      return { success: false, error: "Kindly select a future deadline." };
+    }
+
+    if(args.startPrice <= 0) {
+      return { success: false, error: "Kindly emter a valid price." };
+    }
+
     const product = await Product.create(args, userRef);
     if (!product) return { success: false, error: `Could not add product successfully` };
 

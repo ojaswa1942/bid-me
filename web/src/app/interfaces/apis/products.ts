@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios"
-import { Product } from "src/app/services/models/products.models";
+import { AddProductInput, Product } from "src/app/services/models/products.models";
 import { InterfaceResponsePromise, successInterfacePromiseResponse } from "../models/interface";
-import { BidResponse, LoginResponse, RegisterResponse } from "../models/responses";
+import { ProductResponse, LoginResponse, RegisterResponse } from "../models/responses";
 
 class ProductsAPIs {
     private idt: string = "";
@@ -20,28 +20,27 @@ class ProductsAPIs {
         });
     };
     
-    public bid = async (id: string, price: Number): InterfaceResponsePromise<BidResponse> => {
+    public bid = async (id: string, price: Number): InterfaceResponsePromise<ProductResponse> => {
         try {
             const client = this.getClient();
-            const dataResponse = await client.post<BidResponse>("/bid", { id, price });
-            return successInterfacePromiseResponse<BidResponse>(dataResponse.data);
+            const dataResponse = await client.post<ProductResponse>("/bid", { id, price });
+            return successInterfacePromiseResponse<ProductResponse>(dataResponse.data);
         } catch(error) {
             console.error("Bid failed with error:", error);
             return { success: false, error: error?.response?.data || "Something went wrong" };
         }
     };
 
-    // public bid = async (name: string, email: string, password: string): InterfaceResponsePromise<RegisterResponse> => {
-    //     try {
-    //         const client = this.getClient();
-    //         const dataResponse = await client.post<RegisterResponse>("/bid", { name, email, password });
-    //         return successInterfacePromiseResponse<RegisterResponse>(dataResponse.data);
-    //     } catch(error) {
-    //         console.error("Register failed with error:", error);
-    //         return { success: false, error: error?.response?.data || "Something went wrong" };
-    //     }
-    // };
-
+    public add = async (product: AddProductInput): InterfaceResponsePromise<ProductResponse> => {
+        try {
+            const client = this.getClient();
+            const dataResponse = await client.post<ProductResponse>("/add", product);
+            return successInterfacePromiseResponse<ProductResponse>(dataResponse.data);
+        } catch(error) {
+            console.error("Bid failed with error:", error);
+            return { success: false, error: error?.response?.data || "Something went wrong" };
+        }
+    };
 }
 
 export default ProductsAPIs;
