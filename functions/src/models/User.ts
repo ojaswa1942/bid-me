@@ -30,10 +30,9 @@ export default class User {
         const db = admin.database();
         const ref = db.ref(`${realtimeDatabase.collections.users}/${id}`);
         const user = await ref.once('value');
-        console.log(user);
         if(!user.exists()) return null; 
         
-        return User.transformResponseToUserModel(user.val());
+        return  { id: user.key, ...user.val() };
     };
 
     static findOneByEmail = async(email: string): Promise<UserModel | null> => {

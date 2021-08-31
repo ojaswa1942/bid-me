@@ -1,4 +1,4 @@
-import { AddProductInput, BidInput, Context, ServiceResponse, UserRef } from "../types/types";
+import { AddProductInput, BidInput, Context, ServiceResponse, UserBidResponse, UserRef } from "../types/types";
 
 class ProductsService {
   static add = async (args: AddProductInput, context: Context): Promise<ServiceResponse> => {
@@ -75,6 +75,30 @@ class ProductsService {
 
     logger(`[PRODUCTS_CLOSE_BID]`, Object.keys(updateObject));
     return { success: true, body: { message: 'Successfully closed completed bids for products' } };
+  };
+
+  static fetchAllBids = async (context: Context): Promise<ServiceResponse> => {
+    const { logger, models, uid, userEmail } = context;
+    const { User, Product } = models;
+
+    const user = await User.findOneById(uid as string);
+    if(!user) return { success: false, error: `No such user found` };
+    
+    const productsBids: UserBidResponse[] = [];
+
+    let promises: Promise<void>[] = [];
+    Object.values(user.bids).forEach(async bid => {
+      promises.push(Product.findById(bid.productId).then(product => {
+        if(product) {
+          productsBids.push({ price: bid.price, product });
+        }
+      }));
+    });
+    await Promise.all(promises);
+
+    logger(`[FETCH_PRODUCT_BIDS]`, userEmail);
+
+    return { success: true, body: { message: 'Successfully fetched bid!', bids: productsBids } };
   };
 }
 

@@ -22,11 +22,19 @@ export interface CustomRequest extends ExpressRequest {
 export interface CustomResponse extends ExpressResponse {
 };
 
+export type UserBids = {
+    [key: string]: {
+        productId: string;
+        price: number;
+    }
+}
+
 export type UserModel = {
     id: string;
     name: string;
     email: string;
     password: string;
+    bids: UserBids;
 };
 
 export type LoginArgs = {
@@ -47,25 +55,25 @@ type SuccessResponse = {
 interface SuccessBody {
     message: string;
     [key: string]: any;
-}
+};
 type FailureResponse = {
     success: false;
     error: string | Error;
-}
+};
 
 export type ServiceResponse = SuccessResponse | FailureResponse;
 
 export type UserRef = {
     uid: string;
     email: string;
-}
+};
 
 export type BidDetails = {
     startPrice: number;
     currentPrice: number;
     currentBidder: UserRef;
     bids: number;
-}
+};
 export interface Product {
     name: string;
     description: string;
@@ -75,7 +83,7 @@ export interface Product {
     created: number;
     deadline: number;
     owner: UserRef;
-} 
+};
 
 export interface ProductModel extends Product {
     id: string;
@@ -87,9 +95,14 @@ export type AddProductInput = {
     imageUrl: string;
     startPrice: number;
     deadline: number;
-}
+};
 
 export type BidInput = {
     id: string;
     price: number;
-}
+};
+
+export type UserBidResponse = {
+    price: number;
+    product: ProductModel;
+};
